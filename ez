@@ -1,0 +1,393 @@
+repeat task.wait() until game:IsLoaded() == true
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+makefolder("RektSky ReMake")
+    makefolder("RektSky ReMake/assets")
+makefolder("RektSky ReMake/configs")
+    makefolder("RektSky ReMake/mcsounds")
+
+local function playsound(id, volume) 
+    local sound = Instance.new("Sound")
+    sound.Parent = workspace
+    sound.SoundId = id
+    sound.PlayOnRemove = true 
+    if volume then 
+        sound.Volume = volume
+    end
+    sound:Destroy()
+end
+
+local function playclicksound() 
+    if GuiLibrary["ClickSounds"] then
+        playsound(getasset("Novoline/assets/click.mp3"))
+    end
+end
+
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="RektSky ReMake";
+    Text="RektSky ReMake  has been injected";
+    Duration=3;
+})
+
+
+local Window = Library.CreateLib("RektSky ReMake")
+local Combat = Window:NewTab("Combat")
+local Blatant = Window:NewTab("Blatant")
+local Render = Window:NewTab("Render")
+local Utlity = Window:NewTab("Utlity")
+local World = Window:NewTab("World")
+local Credits = Window:NewTab("Credits")
+local CombatSection = Combat:NewSection("Combat")
+local BlatantSection = Blatant:NewSection("Blatant")
+local RenderSection = Render:NewSection("Render")
+local UtlitySection = Utlity:NewSection("Utlity")
+local WorldSection = World:NewSection("World")
+local CreditsSection = Credits:NewSection("Credits")
+CombatSection:NewToggle("killaura", "test", function(state)
+    if state then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Aura";
+    Text="Module: Aura has been enabled ";
+    Duration=3;
+})
+        local player = game:GetService("Players")
+local lplr = player.LocalPlayer
+local cam = workspace.CurrentCamera
+local KnitClient = debug.getupvalue(require(lplr.PlayerScripts.TS.knit).setup, 6)
+local SwordCont = KnitClient.Controllers.SwordController
+
+local aura = false
+local DistVal = {["Value"] = 14}
+function Aura()
+    for i,v in pairs(game.Players:GetChildren()) do
+        if v.Character and v.Name ~= game.Players.LocalPlayer.Name and v.Character:FindFirstChild("HumanoidRootPart") then
+            local mag = (v.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+            if mag <= DistVal["Value"] and v.Team ~= game.Players.LocalPlayer.Team and v.Character:FindFirstChild("Humanoid") then
+                if v.Character.Humanoid.Health > 0 then
+                    aura = true
+                    SwordCont:swingSwordAtMouse()
+end
+end
+end
+end
+end
+
+game:GetService("RunService").Stepped:connect(function()
+Aura()
+end)
+    else
+        print("Toggle Off")
+    end
+end)
+
+
+CombatSection:NewToggle("Reach", "test", function(state)
+    if state then
+        if state then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Reach";
+    Text="Module: Reach has been enabled ";
+    Duration=3;
+})
+        CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = (reachval["Value"] - 14.4)
+    else
+        CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = 14.4
+    end
+end)
+
+BlatantSection:NewToggle("fly", "HypixelFly", function(v)
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Flight";
+    Text="Module: Flight has been enabled ";
+    Duration=3;
+})
+longjumpval = v
+        if longjumpval then
+            workspace.Gravity = 0
+            spawn(function()
+                repeat
+                    if (not longjumpval) then return end
+                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Freefall)
+                    wait(0.1)
+                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Running)
+                    wait(0.1)
+                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Climbing)
+                    wait(0.1)
+                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Swimming)
+                    wait(0.1)
+                    lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Landed)
+                    wait(0.1)
+                until (not longjumpval)
+            end)
+    else
+        workspace.Gravity = 196.19999694824
+        return
+    end
+end)
+
+
+
+BlatantSection:NewToggle("gravity", "sets your gravity to 30", function(state)
+    if state then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Gravity";
+    Text="Module: Gravity has been enabled ";
+    Duration=3;
+})
+        workspace.Gravity = 30
+    else
+        workspace.Gravity = 196.19999694824
+    end
+end)
+CreditsSection:NewLabel("kill aura made by mastadawn")
+CreditsSection:NewLabel("Reach made by skys#9826")
+CreditsSection:NewLabel("fly  made by xZyn#0002 /CO-Onwer")
+CreditsSection:NewLabel("Founner the Collector")
+
+WorldSection:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
+	Library:ToggleUI()
+end)
+
+CombatSection:NewSlider("Reach", "Reach", 18, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    CombatConstant.RAYCAST_SWORD_CHARACTER_DISTANCE = reachvalue["Value"]
+end)
+
+
+
+WorldSection:NewToggle("AntiVoid", "can be in the void for 8 seconds", function(v)
+    if v then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Anti Void";
+    Text="Module: Anti Void has been enabled ";
+    Duration=3;
+})
+        local antivoidpart = Instance.new("Part", Workspace)
+        antivoidpart.Name = "AntiVoid"
+        antivoidpart.Size = Vector3.new(2100, 0.5, 2000)
+        antivoidpart.Position = Vector3.new(160.5, 25, 247.5)
+        antivoidpart.Transparency = 0.4
+        antivoidpart.Anchored = true
+        antivoidpart.Touched:connect(function(dumbcocks)
+            if dumbcocks.Parent:WaitForChild("Humanoid") and dumbcocks.Parent.Name == lplr.Name then
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+                wait(0.2)
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+                wait(0.2)
+                game.Players.LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+            end
+        end)
+    else
+        game.Workspace.AntiVoid:remove()
+    end
+end)
+
+UtlitySection:NewButton("auto Report", "auto Reports", function(callback)
+    repeat wait() until game:IsLoaded()
+
+local ChatEvent = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents").SayMessageRequest
+local ToReport = {}
+local ToReportReason = {}
+local ToReportVL = {}
+
+function GetReportReason(Message)
+    local ReportReasons = {
+        ["ahck"] = "Scamming",
+        ["havk"] = "Scamming",
+        ["hck"] = "Scamming",
+        ["hak"] = "Scamming",
+        ["hek"] = "Scamming",
+        ["hac"] = "Scamming",
+        ["hax"] = "Scamming",
+        ["hecker"] = "Scamming",
+        ["hacer"] = "Scamming",
+        ["acker"] = "Scamming",
+        ["hecking"] = "Scamming",
+        ["exploit"] = "Scamming",
+        ["cheat"] = "Scamming",
+        
+        ["gay"] = "Bullying",
+        ["gae"] = "Bullying",
+        ["gey"] = "Bullying",
+        ["fat"] = "Bullying",
+        ["bad"] = "Bullying",
+        ["kys"] = "Bullying",
+        ["kid"] = "Bullying",
+        ["die"] = "Bullying",
+        ["ban"] = "Bullying",
+        ["bozo"] = "Bullying",
+        ["trash"] = "Bullying",
+        ["lobby"] = "Bullying",
+        ["loser"] = "Bullying",
+        ["nolife"] = "Bullying",
+        ["no life"] = "Bullying",
+        ["black"] = "Bullying",
+        ["adopt"] = "Bullying",
+        ["linlife"] = "Bullying",
+        ["fatherl"] = "Bullying",
+        ["motherl"] = "Bullying",
+        ["parentl"] = "Bullying",
+        ["report"] = "Bullying",
+        ["getalife"] = "Bullying",
+        ["get a life"] = "Bullying",
+        ["killyour"] = "Bullying",
+        ["kill your"] = "Bullying",
+        ["hacktowin"] = "Bullying",
+        ["commitnotalive"] = "Bullying",
+        ["commit not alive"] = "Bullying",
+        
+        ["disco"] = "Offsite Links",
+        ["yt"] = "Offsite Links",
+        ["dizcourde"] = "Offsite Links",
+        ["vxpe"] = "Offsite Links",
+        ["futureclient"] = "Offsite Links",
+        ["download"] = "Offsite Links",
+        ["youtube"] = "Offsite Links",
+        
+        ["reta"] = "Swearing"
+    }
+    
+    for i, v in pairs(ReportReasons) do
+        if string.find(string.lower(Message), i) then
+            return v
+        end
+    end
+    
+    return "Bullying" and (Message == "L" or Message == "l")
+end
+
+function Say(Message)
+    game.StarterGui:SetCore("ChatMakeSystemMessage", {
+        Text = Message
+    })
+end
+
+game.Players.PlayerChatted:Connect(function(ChatType, PlayerSending, MessageSent)
+    if PlayerSending == game.Players.LocalPlayer then return end
+    if GetReportReason(MessageSent) then
+        -- ChatEvent:FireServer("U just made a huge mistake for saying that "..PlayerSending.Name..".", "All")
+        Say(PlayerSending.Name.." has been detected for "..GetReportReason(MessageSent))
+        
+        if not table.find(ToReport, PlayerSending) then
+            table.insert(ToReport, PlayerSending)
+            table.insert(ToReportReason, GetReportReason(MessageSent))
+            table.insert(ToReportVL, 0)
+        end
+    end
+end)
+
+while task.wait() do
+    for i, v in pairs(ToReport) do
+        if v then
+            game.Players:ReportAbuse(v, ToReportReason[i], "They said a bad word!")
+            
+            ToReportVL[i] = ToReportVL[i] + 1
+            Say("Reported "..v.Name.." for "..ToReportReason[i].." (x"..ToReportVL[i]..") ".."(Index "..i.." of "..#ToReport..")")
+            task.wait(10)
+        end
+    end
+end
+end)
+
+
+BlatantSection:NewToggle("NoFall", "ToggleInfo", function(v)
+        if v then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="NoFall";
+    Text="Module: NoFall has been enabled ";
+    Duration=3;
+})
+            _G.fall = true
+            while _G.fall == true do
+                game:GetService("ReplicatedStorage").rbxts_include.node_modules.net.out._NetManaged.GroundHit:FireServer()
+                wait()
+            end
+        else
+            _G.fall = false
+        end
+    end)
+
+BlatantSection:NewToggle("inf jump", "inf jump", function(state)
+        if state then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Inf Jump";
+    Text="Module: Inf Jump has been enabled ";
+    Duration=3;
+})
+            local InfiniteJumpEnabled = true
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if InfiniteJumpEnabled then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end) 
+
+        else
+
+            local InfiniteJumpDisable = false
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if InfiniteJumpDisable then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("jumping")
+	end
+end) 
+        end
+    end)
+
+RenderSection:NewButton("Cape", "a black cape", function()
+game:GetService("StarterGui"):SetCore("SendNotification",{
+    Title="Cape";
+    Text="Player: Cape has been enabled ";
+    Duration=3;
+})
+    local player = game:GetService("Players")
+local lplr = player.LocalPlayer
+if lplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+      if lplr.Character:FindFirstChild("Torso") then
+        torso = lplr.Character.Torso
+      else
+        torso = lplr.Character.UpperTorso
+      end
+      local CapeP = Instance.new("Part", torso.Parent)
+      CapeP.Name = "Cape"
+      CapeP.Anchored = false
+      CapeP.CanCollide = false
+      CapeP.TopSurface = 0
+      CapeP.BottomSurface = 0
+      CapeP.Color = Color3.fromRGB(0,0,0)
+      CapeP.FormFactor = "Custom"
+      CapeP.Size = Vector3.new(0.2,0.2,0.2)
+      local decal = Instance.new("Decal", CapeP)
+      decal.Texture = "http://www.roblox.com/library/9803693137"
+      decal.Face = "Back"
+      local msh = Instance.new("BlockMesh", CapeP)
+      msh.Scale = Vector3.new(9,17.5,0.5)
+      local motor = Instance.new("Motor", CapeP)
+      motor.Part0 = CapeP
+      motor.Part1 = torso
+      motor.MaxVelocity = 0.01
+      motor.C0 = CFrame.new(0,1.75,0) * CFrame.Angles(0,math.rad(90),0)
+      motor.C1 = CFrame.new(0,1,0.45) * CFrame.Angles(0,math.rad(90),0)
+      local wave = false
+      repeat wait(1/44)
+        decal.Transparency = torso.Transparency
+        local ang = 0.1
+        local oldmag = torso.Velocity.magnitude
+        local mv = 0.002
+        if wave then
+          ang = ang + ((torso.Velocity.magnitude/10) * 0.05) + 0.05
+          wave = false
+        else
+          wave = true
+        end
+        ang = ang + math.min(torso.Velocity.magnitude/11, 0.5)
+        motor.MaxVelocity = math.min((torso.Velocity.magnitude/111), 0.04) + mv
+        motor.DesiredAngle = -ang
+        if motor.CurrentAngle < -0.2 and motor.DesiredAngle > -0.2 then
+          motor.MaxVelocity = 0.04
+        end
+        repeat wait() until motor.CurrentAngle == motor.DesiredAngle or math.abs(torso.Velocity.magnitude - oldmag) >= (torso.Velocity.magnitude/10) +
+1
+        if torso.Velocity.magnitude < 0.1 then
+          wait(0.1)
+        end
+      until not CapeP or CapeP.Parent ~= torso.Parent
+    end
+end)
